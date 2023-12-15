@@ -1,15 +1,19 @@
+
+import zio.Console.{printLine, _}
 import zio._
-import zio.Console.printLine
+
+import java.io.IOException
 
 object Main extends ZIOAppDefault {
 
   // Define an effect to ask a question and read user input
-  val askUser: ZIO[Console, IOException, String] =
+  val askUser: ZIO[Any, IOException, ExitCode] =
     for {
-      _     <- console.putStrLn("What is your location ?")
-      input <- console.getStrLn
-    } yield input
+      _     <- printLine("What is your location ?")
+      input <- readLine
+      _ <- printLine(s"You are located at $input!")
+      exitCode <- ZIO.succeed(ExitCode.success)
+    } yield exitCode
 
-  override def run: ZIO[Environment with ZIOAppArgs with Scope, Any, Any] =
-    askUser.flatMap(location => console.putStrLn(s"You are located at $name!")).exitCode
+  def run: ZIO[Any, IOException, ExitCode] = askUser
 }
