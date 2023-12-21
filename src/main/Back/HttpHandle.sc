@@ -5,26 +5,22 @@ import zio.Duration._
 
 class ConfigBackModule
 
-object HttpStream extends ZIOAppDefault {
+object HttpStream {
 
-        def fetchData() = {
-        val url = URL
-        .decode(
-        "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m"
-        )
-        .toOption
-        .get // unsafe
+        def fetchData(urlToFetch :String) = {
+                val url = URL.decode(urlToFetch)
+                        .toOption
+                        .get // unsafe
 
-        for {
-        client <- ZIO.service[Client]
-        res <- client.url(url).get("/")
-        } yield res
+                for {
+                        client <- ZIO.service[Client]
+                        res <- client.url(url).get("/")
+                } yield res
         }
 
         override def run: ZIO[Any, Any, Unit] =
         val appLogic = for {
-        _ <- ZStream(fetchData())
-        .repeat(Schedule.spaced(10.seconds))
+
         // .groupedWithin(30, 10.seconds)
         .mapZIO { z =>
         for {
