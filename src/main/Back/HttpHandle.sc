@@ -3,6 +3,8 @@ import zio.http._
 import zio.stream._
 import zio.Duration._
 
+class ConfigBackModule
+
 object HttpStream extends ZIOAppDefault {
 
         def fetchData() = {
