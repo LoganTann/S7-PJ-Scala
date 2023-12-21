@@ -5,16 +5,21 @@ import fr.scalapompe.models.QueryResponse.{
 import zio.Console.{printLine, _}
 import zio._
 import java.io.IOException
+import fr.scalapompe.services.FindStationService
+import fr.scalapompe.mocks.StationsApiRecordsMock
 object Main extends ZIOAppDefault {
 
   // Define an effect to ask a question and read user input
   val askUser: ZIO[Any, Throwable, ExitCode] =
     for {
-      _ <- printLine("Bonjour, quelle est votre adresse ?")
-      input <- readLine
-      response <- CreateQueryResponseStream(
-        List(FuelStationData(input, 1.89))
+      _ <- printLine(
+        "Bonjour, ceci est un test. Entez votre nom mais de toute façon on s'en fout."
       )
+      input <- readLine
+      response <- FindStationService.ComputeQueryResultFromAllStations(
+        StationsApiRecordsMock.value
+      )
+      _ <- printLine("Voici le résultat: ")
       _ <- printLine(response.toString)
       exitCode <- ZIO.succeed(ExitCode.success)
     } yield exitCode
