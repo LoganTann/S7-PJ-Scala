@@ -1,15 +1,11 @@
-import fr.scalapompe.models.QueryResponse.{
-  FuelStationData,
-  CreateQueryResponseStream
-}
 import zio.Console.{printLine, _}
 import zio._
 import java.io.IOException
 import fr.scalapompe.services.FindStationService
 import fr.scalapompe.mocks.StationsApiRecordsMock
+
 object Main extends ZIOAppDefault {
 
-  // Define an effect to ask a question and read user input
   val askUser: ZIO[Any, Throwable, ExitCode] =
     for {
       _ <- printLine(
