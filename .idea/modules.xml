@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PJ_la_deshe.iml" filepath="$PROJECT_DIR$/.idea/modules/PJ_la_deshe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalapompe.iml" filepath="$PROJECT_DIR$/.idea/modules/scalapompe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalapompe-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scalapompe-build.iml" />
     </modules>
   </component>
 </project>

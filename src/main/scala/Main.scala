@@ -3,6 +3,11 @@ import zio._
 import java.io.IOException
 import fr.scalapompe.services.FindStationService
 import fr.scalapompe.mocks.StationsApiRecordsMock
+import zio.http.{Client, Handler, Method, Response, Routes, Server, URL}
+import zio.stream.ZStream
+
+import java.io.{File, IOException}
+import java.nio.file.Paths
 
 object Main extends ZIOAppDefault {
 
@@ -20,5 +25,12 @@ object Main extends ZIOAppDefault {
       exitCode <- ZIO.succeed(ExitCode.success)
     } yield exitCode
 
-  def run: ZIO[Any, Throwable, ExitCode] = askUser
+  // Create HTTP route
+  val app = Routes(
+    Method.GET / "text" -> Handler.fromStream(
+      ZStream.fromPath(Paths.get("data.txt"))
+    )
+  ).sandbox.toHttpApp
+
+  val run = Server.serve(app).provide(Server.default)
 }
