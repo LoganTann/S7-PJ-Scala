@@ -7,7 +7,7 @@ import java.nio.file.Paths
 import zio.stream.ZStream
 import zio.Task
 
-object DataController {
+object DataController extends ControllerTrait {
   val routes = Routes(
     Method.GET / "data" -> Handler.fromFunctionZIO(getData),
     Method.GET / "testParams" -> Handler.fromFunction(testQueryParams)
