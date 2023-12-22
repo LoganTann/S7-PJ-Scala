@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PJ_LesRats.iml" filepath="$PROJECT_DIR$/.idea/modules/PJ_LesRats.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PJ_LesRats-build.iml" filepath="$PROJECT_DIR$/.idea/modules/PJ_LesRats-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalapompe.iml" filepath="$PROJECT_DIR$/.idea/modules/scalapompe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalapompe-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scalapompe-build.iml" />
     </modules>
   </component>
 </project>
