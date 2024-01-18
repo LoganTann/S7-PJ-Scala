@@ -9,24 +9,10 @@ import zio.Task
 
 object DataController extends ControllerTrait {
   val routes = Routes(
-    Method.GET / "data" -> Handler.fromFunctionZIO(getData),
     Method.GET / "testParams" -> Handler.fromFunction(testQueryParams)
   )
 
   val relativePath = Paths.get("").toAbsolutePath()
-
-  /** GET /data : Retourne le contenu du fichier data.txt en JSON
-    */
-  def getData(request: Request): Task[Response] = {
-    val file =
-      Paths.get(relativePath.toString().concat("\\src\\main\\scala\\data.txt"))
-
-    ZStream
-      .fromPath(file)
-      .runCollect
-      .map(bytes => new String(bytes.toArray))
-      .map(response => Response.json(response))
-  }
 
   /** GET /testParams?lat=XXX&lon=XXX : Retourne les paramètres de la requête
     */

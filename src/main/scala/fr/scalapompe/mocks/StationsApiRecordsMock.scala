@@ -4,6 +4,8 @@ import fr.scalapompe.models.StationEntity.StationsApiRecords
 import fr.scalapompe.models.StationEntity.StationEntity
 import fr.scalapompe.models.StationEntity.Geom
 
+/** Mock for the [[StationsApiRecords]] model, to be used in unit tests.
+  */
 object StationsApiRecordsMock {
 
   val station1 = StationEntity(

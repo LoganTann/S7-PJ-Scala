@@ -12,6 +12,9 @@ import fr.scalapompe.controllers.ControllerTrait
 import zio.Scope
 
 object Main extends ZIOAppDefault {
+
+  /** Liste des contrôleurs publics.
+    */
   val controllers: List[ControllerTrait] =
     List(DataController, SearchController)
 

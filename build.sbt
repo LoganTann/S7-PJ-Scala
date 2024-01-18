@@ -1,7 +1,7 @@
 ThisBuild / scalaVersion := scala3Version
 ThisBuild / version := "0.1.0-SNAPSHOT"
-ThisBuild / organization := "fr.efrei"
-ThisBuild / organizationName := "Efrei"
+ThisBuild / organization := "fr.scalapompe"
+ThisBuild / organizationName := "Scalapompe"
 
 val scala3Version = "3.3.1"
 val zioVersion = "2.0.20"
