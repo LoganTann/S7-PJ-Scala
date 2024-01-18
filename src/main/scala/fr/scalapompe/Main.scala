@@ -1,5 +1,5 @@
 import fr.scalapompe.mocks.StationsApiRecordsMock
-import fr.scalapompe.services.FindStationService
+import fr.scalapompe.services.StationService
 import fr.scalapompe.Types.RoutesEnvironment
 import zio.ZIOAppDefault
 import java.nio.file.Paths
@@ -7,16 +7,14 @@ import zio.http._
 import zio.stream.ZStream
 import zio.Console.printLine
 import fr.scalapompe.controllers.SearchController
-import fr.scalapompe.controllers.DataController
 import fr.scalapompe.controllers.ControllerTrait
 import zio.Scope
 
 object Main extends ZIOAppDefault {
 
-  /** Liste des contrôleurs publics.
+  /** List of public controllers, to be mounted automatically via [[createAppFromControllers]]
     */
-  val controllers: List[ControllerTrait] =
-    List(DataController, SearchController)
+  val controllers: List[ControllerTrait] = List(SearchController)
 
   override val run = Server
     .serve(createAppFromControllers(controllers))

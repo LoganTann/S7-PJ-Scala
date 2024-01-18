@@ -18,13 +18,5 @@ case class StationEntity(
 )
 
 object StationEntity {
-  def toFuelStationData(station: StationEntity): FuelStationData = {
-    FuelStationData(
-      address = station.adresse,
-      gazoline_price = station.gazole_prix.toDouble
-    )
-  }
-
-  implicit val decoder: JsonDecoder[StationEntity] =
-    DeriveJsonDecoder.gen[StationEntity]
+  implicit val decoder: JsonDecoder[StationEntity] = DeriveJsonDecoder.gen[StationEntity]
 }

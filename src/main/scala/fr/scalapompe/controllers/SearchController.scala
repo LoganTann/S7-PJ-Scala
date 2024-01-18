@@ -1,7 +1,7 @@
 package fr.scalapompe.controllers
 import zio.json._
 import zio.http._
-import fr.scalapompe.services.FindStationService
+import fr.scalapompe.services.StationService
 import fr.scalapompe.mocks.StationsApiRecordsMock
 import zio._
 import java.net.http.HttpClient
@@ -12,42 +12,21 @@ import java.io.IOException
 import scala.collection.mutable.HashMap
 import fr.scalapompe.repositories.StationRepository
 import fr.scalapompe.repositories.StationQueryDto
+import fr.scalapompe.services.HelpersService
 
 object SearchController extends ControllerTrait {
   val routes = Routes(
-    Method.GET / "search" -> Handler.fromFunctionZIO(getSearchResults),
-    Method.GET / "testRequests" -> Handler.fromFunctionZIO(testHttpRequest),
-    Method.GET / "testResults" -> Handler.fromFunctionZIO(testExtractResults)
+    Method.GET / "search" -> Handler.fromFunctionZIO(getSearchResults)
   )
 
-  /** GET /search : Retourne le résultat de la recherche */
-  def getSearchResults(request: Request): UIO[Response] = {
-    FindStationService
-      .ComputeQueryResultFromAllStations(StationsApiRecordsMock.value)
-      .map(response => Response.json(response))
-  }
-
-  /** GET /testRequests. */
-  def testHttpRequest(request: Request) = {
-    val response = for {
-      records <- StationRepository.get(StationQueryDto())
-      resultsAsJsonString <- FindStationService
-        .ComputeQueryResultFromAllStations(records)
-      response <- ZIO.succeed(Response.json(resultsAsJsonString))
-    } yield (response)
-
-    response.catchAll(handleError)
-  }
-
-  def testExtractResults(request: Request) = {
-    val pipeline = for {
-      records <- StationRepository.get(StationQueryDto(isOffline = true))
-      resultsAsJsonString <- FindStationService
-        .ComputeQueryResultFromAllStations(records)
-      response <- ZIO.succeed(Response.json(resultsAsJsonString))
-    } yield response
-
-    pipeline.catchAll(handleError)
+  /** GET /search?lat=<Double>&lon=<Double>&distance=<Int>[&offline=<true>] */
+  def getSearchResults(request: Request) = {
+    val userQuery = HelpersService.extractQuery(request)
+    val rawStations = StationRepository.searchStations(userQuery)
+    rawStations
+      .map(records => StationService.processStations(records, userQuery))
+      .map(result => StationService.generateHttpResponse(result))
+      .catchAll(handleError)
   }
 
   def handleError(e: Throwable): ZIO[Any, IOException, Response] = {
