@@ -11,12 +11,9 @@ case class QueryResponse(
 object QueryResponse {
   implicit val encoder: JsonEncoder[QueryResponse] =
     DeriveJsonEncoder.gen[QueryResponse]
-}
 
-def CreateQueryResponseStream(
-    data: List[FuelStationData]
-): Task[String] = {
-  val dataset: DatasetInfo = DatasetInfo(LocalDateTime.now());
-  val response = QueryResponse(dataset, data)
-  ZIO.succeed(response.toJson);
+  def createFromData(data: List[FuelStationData]): QueryResponse = {
+    val dataset: DatasetInfo = DatasetInfo(LocalDateTime.now());
+    QueryResponse(dataset, data)
+  }
 }
