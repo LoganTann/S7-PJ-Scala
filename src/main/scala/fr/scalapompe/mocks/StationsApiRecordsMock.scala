@@ -7,7 +7,7 @@ import fr.scalapompe.models.StationEntity.Geom
 object StationsApiRecordsMock {
 
   val station1 = StationEntity(
-    id = "93240007",
+    id = 93240007,
     latitude = "4894874.99536",
     longitude = 237988.07028,
     adresse = "21 AV.DE STALINGRAD - COURS ST L",
@@ -23,7 +23,7 @@ object StationsApiRecordsMock {
   )
 
   val station2 = StationEntity(
-    id = "95000007",
+    id = 95000007,
     latitude = "4903710",
     longitude = 207560.0,
     adresse = "3 Avenue des Trois Fontaines",

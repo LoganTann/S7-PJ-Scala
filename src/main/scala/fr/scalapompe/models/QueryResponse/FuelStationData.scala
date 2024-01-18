@@ -10,4 +10,7 @@ case class FuelStationData(
 object FuelStationData {
   implicit val encoder: JsonEncoder[FuelStationData] =
     DeriveJsonEncoder.gen[FuelStationData]
+
+  implicit val decoder: JsonDecoder[FuelStationData] =
+    DeriveJsonDecoder.gen[FuelStationData]
 }

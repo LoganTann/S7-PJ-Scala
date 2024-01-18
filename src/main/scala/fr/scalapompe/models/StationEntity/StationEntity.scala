@@ -1,9 +1,9 @@
 package fr.scalapompe.models.StationEntity
-
+import zio.json._
 import fr.scalapompe.models.QueryResponse.FuelStationData
 
 case class StationEntity(
-    id: String,
+    id: Int,
     latitude: String,
     longitude: Double,
     adresse: String,
@@ -22,4 +22,7 @@ object StationEntity {
       gazoline_price = station.gazole_prix.toDouble
     )
   }
+
+  implicit val decoder: JsonDecoder[StationEntity] =
+    DeriveJsonDecoder.gen[StationEntity]
 }
