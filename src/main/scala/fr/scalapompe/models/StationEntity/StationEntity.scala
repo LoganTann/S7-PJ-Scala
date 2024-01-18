@@ -18,6 +18,5 @@ case class StationEntity(
 )
 
 object StationEntity {
-  implicit val decoder: JsonDecoder[StationEntity] =
-    DeriveJsonDecoder.gen[StationEntity]
+  implicit val decoder: JsonDecoder[StationEntity] = DeriveJsonDecoder.gen[StationEntity]
 }

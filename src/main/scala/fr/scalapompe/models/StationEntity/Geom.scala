@@ -10,8 +10,8 @@ case class Geom(
 )
 
 object Geom {
-  implicit val decoder: JsonDecoder[Geom] =
-    DeriveJsonDecoder.gen[Geom]
+  implicit val decoder: JsonDecoder[Geom] = DeriveJsonDecoder.gen[Geom]
+
   extension (geom: Geom) {
 
     /** Calculates the distance between two geographical points. Inspired by

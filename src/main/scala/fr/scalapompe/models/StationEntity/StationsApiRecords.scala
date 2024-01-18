@@ -13,6 +13,5 @@ case class StationsApiRecords(
 )
 
 object StationsApiRecords {
-  implicit val decoder: JsonDecoder[StationsApiRecords] =
-    DeriveJsonDecoder.gen[StationsApiRecords]
+  implicit val decoder: JsonDecoder[StationsApiRecords] = DeriveJsonDecoder.gen[StationsApiRecords]
 }

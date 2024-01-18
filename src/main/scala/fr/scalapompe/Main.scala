@@ -14,8 +14,7 @@ object Main extends ZIOAppDefault {
 
   /** List of public controllers, to be mounted automatically via [[createAppFromControllers]]
     */
-  val controllers: List[ControllerTrait] =
-    List(SearchController)
+  val controllers: List[ControllerTrait] = List(SearchController)
 
   override val run = Server
     .serve(createAppFromControllers(controllers))
