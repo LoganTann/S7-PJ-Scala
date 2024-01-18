@@ -1,6 +1,8 @@
 package fr.scalapompe.models.StationEntity
 import zio.json._
 
+/** Represents a geolocation point. Provided by the API.
+  */
 case class Geom(
     lon: Double,
     lat: Double

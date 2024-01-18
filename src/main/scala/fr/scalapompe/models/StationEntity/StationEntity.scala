@@ -2,6 +2,8 @@ package fr.scalapompe.models.StationEntity
 import zio.json._
 import fr.scalapompe.models.QueryResponse.FuelStationData
 
+/** Represents a single station. Provided by the API.
+  */
 case class StationEntity(
     id: Int,
     latitude: String,
