@@ -11,7 +11,7 @@ import zio.json._
 import fr.scalapompe.models.QueryResponse.DatasetInfo
 import java.nio.file.Paths
 
-object FindStationService {
+object StationService {
 
   def ComputeQueryResultFromAllStations(
       stations: StationsApiRecords

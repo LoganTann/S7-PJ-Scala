@@ -1,7 +1,7 @@
 package fr.scalapompe.controllers
 import zio.json._
 import zio.http._
-import fr.scalapompe.services.FindStationService
+import fr.scalapompe.services.StationService
 import fr.scalapompe.mocks.StationsApiRecordsMock
 import zio._
 import java.net.http.HttpClient
@@ -12,26 +12,31 @@ import java.io.IOException
 import scala.collection.mutable.HashMap
 import fr.scalapompe.repositories.StationRepository
 import fr.scalapompe.repositories.StationQueryDto
+import fr.scalapompe.services.HelpersService
 
 object SearchController extends ControllerTrait {
   val routes = Routes(
-    Method.GET / "search" -> Handler.fromFunctionZIO(getSearchResults),
-    Method.GET / "testRequests" -> Handler.fromFunctionZIO(testHttpRequest),
-    Method.GET / "testResults" -> Handler.fromFunctionZIO(testExtractResults)
+    Method.GET / "search" -> Handler.fromFunctionZIO(getSearchResults)
   )
 
   /** GET /search : Retourne le résultat de la recherche */
-  def getSearchResults(request: Request): UIO[Response] = {
-    FindStationService
-      .ComputeQueryResultFromAllStations(StationsApiRecordsMock.value)
-      .map(response => Response.json(response))
+  def getSearchResults(request: Request) = {
+    val userQuery = HelpersService.extractQuery(request)
+    val pipeline = for {
+      records <- StationRepository.searchStations(userQuery)
+      resultsAsJsonString <- StationService
+        .ComputeQueryResultFromAllStations(records)
+      response <- ZIO.succeed(Response.json(resultsAsJsonString))
+    } yield response
+
+    pipeline.catchAll(handleError)
   }
 
   /** GET /testRequests. */
   def testHttpRequest(request: Request) = {
     val response = for {
-      records <- StationRepository.get(StationQueryDto())
-      resultsAsJsonString <- FindStationService
+      records <- StationRepository.searchStations(StationQueryDto())
+      resultsAsJsonString <- StationService
         .ComputeQueryResultFromAllStations(records)
       response <- ZIO.succeed(Response.json(resultsAsJsonString))
     } yield (response)
@@ -41,8 +46,10 @@ object SearchController extends ControllerTrait {
 
   def testExtractResults(request: Request) = {
     val pipeline = for {
-      records <- StationRepository.get(StationQueryDto(isOffline = true))
-      resultsAsJsonString <- FindStationService
+      records <- StationRepository.searchStations(
+        StationQueryDto(isOffline = true)
+      )
+      resultsAsJsonString <- StationService
         .ComputeQueryResultFromAllStations(records)
       response <- ZIO.succeed(Response.json(resultsAsJsonString))
     } yield response
