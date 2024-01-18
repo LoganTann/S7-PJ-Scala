@@ -19,42 +19,14 @@ object SearchController extends ControllerTrait {
     Method.GET / "search" -> Handler.fromFunctionZIO(getSearchResults)
   )
 
-  /** GET /search : Retourne le résultat de la recherche */
+  /** GET /search?lat=<Double>&lon=<Double>&distance=<Int>[&offline=<true>] */
   def getSearchResults(request: Request) = {
     val userQuery = HelpersService.extractQuery(request)
-    val pipeline = for {
-      records <- StationRepository.searchStations(userQuery)
-      resultsAsJsonString <- StationService
-        .ComputeQueryResultFromAllStations(records)
-      response <- ZIO.succeed(Response.json(resultsAsJsonString))
-    } yield response
-
-    pipeline.catchAll(handleError)
-  }
-
-  /** GET /testRequests. */
-  def testHttpRequest(request: Request) = {
-    val response = for {
-      records <- StationRepository.searchStations(StationQueryDto())
-      resultsAsJsonString <- StationService
-        .ComputeQueryResultFromAllStations(records)
-      response <- ZIO.succeed(Response.json(resultsAsJsonString))
-    } yield (response)
-
-    response.catchAll(handleError)
-  }
-
-  def testExtractResults(request: Request) = {
-    val pipeline = for {
-      records <- StationRepository.searchStations(
-        StationQueryDto(isOffline = true)
-      )
-      resultsAsJsonString <- StationService
-        .ComputeQueryResultFromAllStations(records)
-      response <- ZIO.succeed(Response.json(resultsAsJsonString))
-    } yield response
-
-    pipeline.catchAll(handleError)
+    val rawStations = StationRepository.searchStations(userQuery)
+    rawStations
+      .map(records => StationService.processStations(records, userQuery))
+      .map(result => StationService.generateHttpResponse(result))
+      .catchAll(handleError)
   }
 
   def handleError(e: Throwable): ZIO[Any, IOException, Response] = {

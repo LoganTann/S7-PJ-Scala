@@ -12,7 +12,7 @@ import zio.Scope
 
 object Main extends ZIOAppDefault {
 
-  /** Liste des contrôleurs publics.
+  /** List of public controllers, to be mounted automatically via [[createAppFromControllers]]
     */
   val controllers: List[ControllerTrait] =
     List(SearchController)

@@ -1,5 +1,8 @@
 package fr.scalapompe.repositories
 
+import zio.json._
+import fr.scalapompe.models.StationEntity.Geom
+
 /** Parameters for the search
   * @param lat
   *   Latitude, defaults to the one of EFREI.
@@ -16,3 +19,12 @@ final case class StationQueryDto(
     distance: Int = 10,
     isOffline: Boolean = false
 )
+
+object StationQueryDto {
+  implicit val encoder: JsonEncoder[StationQueryDto] =
+    DeriveJsonEncoder.gen[StationQueryDto]
+
+  extension (stationQuery: StationQueryDto) {
+    def getGeom: Geom = Geom(stationQuery.lon, stationQuery.lat)
+  }
+}

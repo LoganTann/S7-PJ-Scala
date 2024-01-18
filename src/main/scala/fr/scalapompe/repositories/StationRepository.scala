@@ -10,7 +10,6 @@ object StationRepository {
 
   type IOStationsRecords = ZIO[RoutesEnvironment, Throwable, StationsApiRecords]
 
-  // val OFFLINE_FILE_PATH = "\\src\\main\\scala\\fr\\scalapompe\\data.json";
   val OFFLINE_FILE_PATH = "/src/main/scala/fr/scalapompe/data.json";
   val API_ENDPOINT =
     "https://data.economie.gouv.fr/api/explore/v2.1/catalog/datasets/prix-des-carburants-en-france-flux-instantane-v2/records";
@@ -23,7 +22,7 @@ object StationRepository {
     }
   }
 
-  def getFromLocalFile(query: StationQueryDto): IOStationsRecords = {
+  private def getFromLocalFile(query: StationQueryDto): IOStationsRecords = {
     for {
       _ <- Console.printLine(s"Fetching data from file ${OFFLINE_FILE_PATH}...")
       fileContent <- HelpersService.fileToString(OFFLINE_FILE_PATH)
@@ -32,7 +31,7 @@ object StationRepository {
     } yield records
   }
 
-  def getFromAPI(query: StationQueryDto): IOStationsRecords = {
+  private def getFromAPI(query: StationQueryDto): IOStationsRecords = {
     val url = createUrl(query)
     for {
       _ <- Console.printLine(s"Fetching data from ${url.encode}...")
