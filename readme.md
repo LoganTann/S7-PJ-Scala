@@ -21,6 +21,10 @@ Il faut mentionner les paramètres suivants :
 exemple : 
 * https://localhost:8080/search?lat=48.7886889&lon=2.358667&distance=100
 
+## Tests
+
+Les tests sont situés dans le dossier [src/test/scala/fr/scalapompe](src/test/scala/fr/scalapompe). Pour démarrer les tests, exécuter `sbt test`.
+
 ## Informations techniques
 
 Tout le code est dans le package main.scala.fr.scalapompe. L'entrypoint est Main.scala
