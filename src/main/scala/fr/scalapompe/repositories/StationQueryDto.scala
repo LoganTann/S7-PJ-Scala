@@ -21,8 +21,7 @@ final case class StationQueryDto(
 )
 
 object StationQueryDto {
-  implicit val encoder: JsonEncoder[StationQueryDto] =
-    DeriveJsonEncoder.gen[StationQueryDto]
+  implicit val encoder: JsonEncoder[StationQueryDto] = DeriveJsonEncoder.gen[StationQueryDto]
 
   extension (stationQuery: StationQueryDto) {
     def getGeom: Geom = Geom(stationQuery.lon, stationQuery.lat)
