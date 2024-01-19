@@ -1,5 +1,4 @@
 package fr.scalapompe.mocks
-
 import fr.scalapompe.models.StationEntity.StationsApiRecords
 import fr.scalapompe.models.StationEntity.StationEntity
 import fr.scalapompe.models.StationEntity.Geom

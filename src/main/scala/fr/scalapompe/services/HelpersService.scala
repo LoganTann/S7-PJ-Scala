@@ -24,10 +24,10 @@ object HelpersService {
 
   def extractQuery(request: Request): StationQueryDto = {
     val queryParams = request.url.queryParams
-    val distance = queryParams.get("distance").map(_.toInt).getOrElse(10)
+    val distance = queryParams.get("distance").flatMap(_.toIntOption).getOrElse(10)
     val isOffline = queryParams.get("offline").isDefined
-    val lat = queryParams.get("lat").map(_.toDouble)
-    val lon = queryParams.get("lon").map(_.toDouble)
+    val lat = queryParams.get("lat").flatMap(_.toDoubleOption)
+    val lon = queryParams.get("lon").flatMap(_.toDoubleOption)
 
     (lat, lon) match {
       case (Some(lat), Some(lon)) =>
