@@ -11,7 +11,7 @@ object HelperServiceSpec extends ZIOSpecDefault {
     suite("fileToString")(
       test("Should output the content of a file as a string When giving relative path") {
         // GIVEN
-        val relativeFilePath = "/src/test/dummyFile.txt"
+        val relativeFilePath = "/src/test/scala/fr/scalapompe/mocks/dummyFile.txt"
         for {
           // WHEN
           fileContent <- HelpersService.fileToString(relativeFilePath)

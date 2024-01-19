@@ -2,7 +2,6 @@ package fr.scalapompe.controllers
 import zio.json._
 import zio.http._
 import fr.scalapompe.services.StationService
-import fr.scalapompe.mocks.StationsApiRecordsMock
 import zio._
 import java.net.http.HttpClient
 import zio.stream.ZStream
